@@ -7,7 +7,7 @@ export default class WikiService {
     let requestParameters = new URLSearchParams();
     requestParameters.append('pageOffset', pageOffset);
     requestParameters.append('limit', limit);
-    console.debug('Sending request to ' + WIKI_SERVICE_URL + 'ITEM?' + requestParameters.toString());
+
     let request = new Request(WIKI_SERVICE_URL + 'ITEM?' +
       requestParameters.toString(), {
         method: 'GET',
@@ -22,7 +22,6 @@ export default class WikiService {
         + ', limit=' + limit);
     }
 
-    console.debug('WikiService: wikiItems=\n' + JSON.stringify(wikiItems));
     return wikiItems;
   }
 }

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import WikiService from './services/WikiService';
 import DeviceContainer from './DeviceContainer';
 import DraggableDevice from './DraggableDevice';
@@ -6,7 +8,8 @@ import DraggableDevice from './DraggableDevice';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-class App extends Component {
+@DragDropContext(HTML5Backend)
+export default class App extends Component {
   constructor() {
     super();
     this.state = { devices: [], currentPage: 0 };
@@ -28,8 +31,8 @@ class App extends Component {
   }
 
   render() {
-    let wikiItems = this.state.devices.map(wikiItem =>
-      <DraggableDevice className="row" key={wikiItem.wikiid} device={wikiItem}/>);
+    let devices = this.state.devices.map(device =>
+      <DraggableDevice className="row" key={device.wikiid} device={device} />);
 
     return (
       <div className="App">
@@ -37,11 +40,17 @@ class App extends Component {
           <h1 className="App-title">Grabbag Device Picker</h1>
         </header>
         <div className="container">
-          {wikiItems}
+          <div className="row">
+            <DeviceContainer className="col-md-4" />
+            <div className="col-md-8">
+              <div className="row">
+                <h1>All Devices</h1>
+              </div>
+              {devices}
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 }
-
-export default App;
