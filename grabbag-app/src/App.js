@@ -40,9 +40,9 @@ export default class App extends Component {
           <h1 className="App-title">Grabbag Device Picker</h1>
         </header>
         <div className="container">
-          <div className="row">
-            <DeviceContainer className="col-md-4" />
-            <div className="col-md-8">
+          <div className="row all-devices">
+            <DeviceContainer className="col-md-4 device-grid" />
+            <div className="col-md-8 device-grid">
               <div className="row">
                 <h1>All Devices</h1>
               </div>

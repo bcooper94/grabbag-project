@@ -24,7 +24,7 @@ export default class DraggableDevice extends Component {
 
     return connectDragSource(
       <div>
-        <DeviceCard device={device} />
+        <DeviceCard device={device} enableDelete={false} />
       </div>
     );
   }

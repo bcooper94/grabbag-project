@@ -8,7 +8,7 @@ export default class WikiService {
     requestParameters.append('pageOffset', pageOffset);
     requestParameters.append('limit', limit);
 
-    let request = new Request(WIKI_SERVICE_URL + 'ITEM?' +
+    let request = new Request(WIKI_SERVICE_URL + 'CATEGORY?' +
       requestParameters.toString(), {
         method: 'GET',
       });

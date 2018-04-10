@@ -12,6 +12,7 @@
   height: 150px;
   padding: 20px;
   color: white;
+  margin-bottom: 25px;
 }
 
 .App-title {
@@ -20,4 +21,30 @@
 
 .App-intro {
   font-size: large;
+}
+
+.all-devices {
+  padding-bottom: 50px;
+}
+
+.device-grid {
+  padding: 20px 50px;
+}
+
+.device-container {
+  /* position: fixed; */
+  /* margin-right: 50px; */
+  background: rgba(138, 130, 130, 0.178);
+  border: 2px dashed rgb(63, 61, 61);
+  margin-bottom: auto;
+}
+
+.device-card {
+  padding-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.device-card > img {
+  margin-right: 15px;
 }
