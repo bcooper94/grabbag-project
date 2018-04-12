@@ -18,7 +18,7 @@ export default class DeviceCard extends Component {
 
   static defaultProps = {
     enableDelete: false,
-    onClickRemoveDevice: () => { }
+    onClickRemoveDevice: () => {}
   };
 
   constructor(props) {
@@ -60,8 +60,8 @@ export default class DeviceCard extends Component {
         onMouseLeave={this.handleMouseLeave}>
         <div>
           <img src={imageUrl}
-            alt={device.display_title}
-            className={this.props.className} />
+          alt={device.display_title}
+          className={this.props.className} />
           {deleteButton}
         </div>
       </div>

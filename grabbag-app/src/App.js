@@ -4,7 +4,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 // import Infinite from 'react-infinite';
 import WikiService from './services/WikiService';
 import ResponsiveGrid from './ResponsiveGrid';
-import DeviceContainer from './DeviceContainer';
+import DockedDeviceContainer from './DockedDeviceContainer';
 import DraggableDevice from './DraggableDevice';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -20,7 +20,8 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      devices: []
+      devices: [],
+      doneLoadingDevices: false
     };
 
     this._onInfiniteLoad = this._onInfiniteLoad.bind(this);
@@ -35,7 +36,7 @@ export default class App extends Component {
     try {
       let wikiItems = await this.wikiService.getWikiItems(batchStartingOffset,
         this.props.devicesPerRow * this.props.rowsPerBatch);
-      this.setState({devices: this.state.devices.concat(wikiItems)});
+      this.setState({ devices: this.state.devices.concat(wikiItems) });
     } catch (error) {
       console.error('Failed to fetch wiki items for page=' + batchStartingOffset
         + ': ' + error);
@@ -43,7 +44,14 @@ export default class App extends Component {
   }
 
   async _onInfiniteLoad() {
-    await this.getDeviceBatch(this.state.devices.length);
+    if (!this.state.doneLoadingDevices) {
+      let deviceCount = this.state.devices.length;
+      await this.getDeviceBatch(this.state.devices.length);
+
+      if (this.state.devices.length === deviceCount) {
+        this.setState({ doneLoadingDevices: true });
+      }
+    }
   }
 
   render() {
@@ -52,15 +60,15 @@ export default class App extends Component {
       <DraggableDevice key={device.wikiid} device={device} />);
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Grabbag Device Picker</h1>
+      <div className='App'>
+        <header className='App-header'>
+          <h1 className='App-title'>Grabbag Device Picker</h1>
         </header>
-        <div className="container">
-          <div id="devices-container" className="row all-devices">
-            <DeviceContainer className="col-md-4 device-grid" />
-            <div className="col-md-8 device-grid">
-              <div className="row">
+        <div className='container'>
+          <DockedDeviceContainer />
+          <div id='devices-container' className='row all-devices'>
+            <div className='col-md-12 device-grid'>
+              <div className='row'>
                 <h1>All Devices</h1>
               </div>
               <ResponsiveGrid
@@ -73,7 +81,7 @@ export default class App extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     );
   }
 }

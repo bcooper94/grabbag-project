@@ -33,6 +33,11 @@ export default class DeviceStorageService {
     this._syncStorage();
   }
 
+  clearDevices() {
+    this.devices = [];
+    this._syncStorage();
+  }
+
   _syncStorage() {
     if (this._isLocalStorageAvailable()) {
       window.localStorage.setItem(DeviceStorageService.DEVICE_STORE_KEY,

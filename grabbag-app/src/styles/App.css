@@ -1,3 +1,7 @@
+div {
+  justify-content: center;
+}
+
 .App {
   text-align: center;
 }
@@ -32,26 +36,21 @@
 }
 
 .device-container {
-  /* position: fixed; */
-  /* margin-right: 50px; */
-  background: rgba(138, 130, 130, 0.178);
-  border: 2px dashed rgb(63, 61, 61);
-  margin-bottom: auto;
+  height: 100%;
 }
 
 .device-card {
   margin-bottom: 20px;
 }
 
+.device-card > img {
+  text-overflow: ellipsis;
+}
+
+.remove-devices-button {
+  margin-top: 25px;
+}
+
 .draggable-device {
   cursor: pointer;
 }
-/* .device-card {
-  padding-top: 20px;
-  margin-left: 20px;
-  margin-right: 20px;
-}
-
-.device-card > img {
-  margin-right: 15px;
-} */

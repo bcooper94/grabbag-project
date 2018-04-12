@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Infinite from 'react-infinite';
+// import './styles/ResponsiveGrid.css';
 
 export default class ResponsiveGrid extends Component {
   static defaultProps = {
-    containerClass: 'container',
     onInfiniteLoad: () => { },
     isInfiniteLoadHandlerAsync: false,
     displayBottomUpwards: false

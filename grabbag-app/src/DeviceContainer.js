@@ -13,6 +13,10 @@ import 'react-s-alert/dist/s-alert-default.css';
 const deviceContainerTarget = {
   drop(props, monitor, deviceContainerComponent) {
     deviceContainerComponent.handleDrop(monitor.getItem());
+  },
+
+  hover(props, monitor, deviceContainerComponent) {
+    deviceContainerComponent.props.onDeviceHover(props, monitor);
   }
 };
 
@@ -25,12 +29,16 @@ const collect = (connect, monitor) => {
 
 @DropTarget(constants.DRAG_DROP_TYPES.DEVICE, deviceContainerTarget, collect)
 export default class DeviceContainer extends Component {
-  constructor() {
-    super();
-    this.state = {
-      storedDevices: [],
-      wasDeviceAdded: false
-    };
+  static defaultProps = {
+    elementsPerRow: 2,
+    onDeviceDrop: () => { },
+    onDeviceHover: () => { }
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = { storedDevices: [] };
+    this.clearDevices = this.clearDevices.bind(this);
   }
 
   componentDidMount() {
@@ -51,6 +59,7 @@ export default class DeviceContainer extends Component {
     if (!this.state.storedDevices.find(device =>
       device.wikiid === targetDevice.wikiid)) {
       this.addDevice(targetDevice);
+      this.props.onDeviceDrop(targetDevice);
     } else {
       console.log('Device already in collection');
       Alert.info('You already have ' + targetDevice.display_title
@@ -59,10 +68,7 @@ export default class DeviceContainer extends Component {
   }
 
   addDevice(device) {
-    this.setState({
-      storedDevices: [...this.state.storedDevices, device],
-      wasDeviceAdded: true
-    });
+    this.setState({ storedDevices: [...this.state.storedDevices, device] });
     this._scrollToBottom();
 
     if (this.deviceStorageService != null) {
@@ -92,6 +98,14 @@ export default class DeviceContainer extends Component {
     }
   }
 
+  clearDevices() {
+    this.setState({ storedDevices: [] });
+
+    if (this.deviceStorageService != null) {
+      this.deviceStorageService.clearDevices();
+    }
+  }
+
   render() {
     const { connectDropTarget } = this.props;
     let deviceElements = this.state.storedDevices.map(device =>
@@ -107,10 +121,11 @@ export default class DeviceContainer extends Component {
         <ResponsiveGrid
           ref='deviceContainerGrid'
           elements={deviceElements}
-          elementsPerRow={2}
+          elementsPerRow={this.props.elementsPerRow}
           elementHeight={67.25}
-          containerHeight={600}
-          displayBottomUpwards={true} />
+          containerHeight={600} />
+        <button className='btn btn-danger remove-devices-button'
+          onClick={this.clearDevices}>Remove All</button>
       </div>
     );
   }
