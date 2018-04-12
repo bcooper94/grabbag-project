@@ -1,6 +1,10 @@
 # Grabbag App
 
-## How to run
-1. Navigate to the ```grabbag-app``` folder
-2. Run ```npm install```
-3. Run ```npm start```
+## Requirements
+1. Node (v8.11.1 used for development)
+
+## Installation
+1. From the ```grabbag-app``` directory, run ```npm install```
+
+## Running the web server
+1. From the ```grabbag-app``` directory, run ```npm start```
