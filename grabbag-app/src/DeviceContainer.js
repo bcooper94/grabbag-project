@@ -7,8 +7,6 @@ import DeviceCard from './DeviceCard';
 import DeviceStorageService from './services/DeviceStorageService';
 import * as constants from './Constants';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 const deviceContainerTarget = {
   drop(props, monitor, deviceContainerComponent) {
     deviceContainerComponent.handleDrop(monitor.getItem());
@@ -119,7 +117,7 @@ export default class DeviceContainer extends Component {
 
     return connectDropTarget(
       <div className={this.props.className + ' device-container'}>
-        <NotificationSystem ref='notificationSystem'/>
+        <NotificationSystem ref='notificationSystem' />
         <div className="device-container-title">
           <h1>Your Devices</h1>
         </div>

@@ -6,11 +6,10 @@ import ResponsiveGrid from './ResponsiveGrid';
 import DockedDeviceContainer from './DockedDeviceContainer';
 import DraggableDevice from './DraggableDevice';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/App.css';
 
 @DragDropContext(HTML5Backend)
-export default class App extends Component {
+export default class DevicePickerApp extends Component {
   static defaultProps = {
     devicesPerRow: 4,
     rowsPerBatch: 8
@@ -54,7 +53,7 @@ export default class App extends Component {
   }
 
   render() {
-    const deviceHeight = 72;
+    const deviceHeight = 92;
     let deviceElements = this.state.devices.map(device =>
       <DraggableDevice key={device.wikiid} device={device} />);
 

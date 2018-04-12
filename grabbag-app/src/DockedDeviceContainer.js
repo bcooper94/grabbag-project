@@ -23,37 +23,38 @@ export default class DockedDeviceContainer extends Component {
 
   constructor() {
     super();
-    this.state = { isDeviceContainerVisible: false };
-    this.toggleShowDeviceContainer = this.toggleShowDeviceContainer.bind(this);
+    this.state = { isSidebarDocked: false };
+    this.toggleShowSidebar = this.toggleShowSidebar.bind(this);
     this.onHover = this.onHover.bind(this);
   }
 
-  toggleShowDeviceContainer() {
+  toggleShowSidebar() {
     this.setState({
-      isDeviceContainerVisible: !this.state.isDeviceContainerVisible
+      isSidebarDocked: !this.state.isSidebarDocked
     });
   }
 
   onHover(props, monitor) {
     setTimeout(() => {
       if (monitor.isOver()) {
-        this.setState({ isDeviceContainerVisible: true });
+        this.setState({ isSidebarDocked: true });
       }
     }, 1000);
   }
 
   render() {
-    let isDeviceContainerVisible;
+    let sidebarSize;
     let sidebarOpenCloseButtonClass;
-    let devicesPerRow = 3;
+    let devicesPerRow;
 
-    if (this.state.isDeviceContainerVisible) {
-      isDeviceContainerVisible = this.props.sidebarOpenSize;
-      sidebarOpenCloseButtonClass = 'fa fa-lg fa-plus-circle '
+    if (this.state.isSidebarDocked) {
+      devicesPerRow = 3;
+      sidebarSize = this.props.sidebarOpenSize;
+      sidebarOpenCloseButtonClass = 'fa fa-lg fa-times-circle '
         + 'device-picker-light-glyph';
     } else {
-      isDeviceContainerVisible = this.props.sidebarDockedSize;
-      sidebarOpenCloseButtonClass = 'fa fa-lg fa-times-circle '
+      sidebarSize = this.props.sidebarDockedSize;
+      sidebarOpenCloseButtonClass = 'fa fa-lg fa-plus-circle '
         + 'device-picker-light-glyph';
       devicesPerRow = 1;
     }
@@ -62,7 +63,7 @@ export default class DockedDeviceContainer extends Component {
       <Dock position={this.props.sidebarPosition}
         isVisible={true}
         fluid={true}
-        size={isDeviceContainerVisible}
+        size={sidebarSize}
         dimMode='none'
         dockStyle={dockStyle}>
         <DeviceContainer className='device-grid'
@@ -70,7 +71,7 @@ export default class DockedDeviceContainer extends Component {
           onDeviceHover={this.onHover} />
         <i className={sidebarOpenCloseButtonClass}
           style={toggleButtonStyle}
-          onClick={this.toggleShowDeviceContainer}></i>
+          onClick={this.toggleShowSidebar}></i>
       </Dock>
     );
   }

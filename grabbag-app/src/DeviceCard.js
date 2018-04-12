@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'font-awesome/css/font-awesome.min.css';
-
 export default class DeviceCard extends Component {
   static DELETE_BUTTON_STYLE = {
     cursor: 'pointer',
@@ -18,7 +15,7 @@ export default class DeviceCard extends Component {
 
   static defaultProps = {
     enableDelete: false,
-    onClickRemoveDevice: () => {}
+    onClickRemoveDevice: () => { }
   };
 
   constructor(props) {
@@ -60,8 +57,8 @@ export default class DeviceCard extends Component {
         onMouseLeave={this.handleMouseLeave}>
         <div>
           <img src={imageUrl}
-          alt={device.display_title}
-          className={this.props.className} />
+            alt={device.display_title}
+            className={this.props.className} />
           {deleteButton}
         </div>
       </div>

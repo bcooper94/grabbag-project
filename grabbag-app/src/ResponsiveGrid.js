@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Infinite from 'react-infinite';
-// import './styles/ResponsiveGrid.css';
 
 export default class ResponsiveGrid extends Component {
   static defaultProps = {
     onInfiniteLoad: () => { },
     isInfiniteLoadHandlerAsync: false,
-    displayBottomUpwards: false
+    displayBottomUpwards: false,
+    useWindowAsScrollContainer: false
   };
 
   static propTypes = {
@@ -78,6 +78,7 @@ export default class ResponsiveGrid extends Component {
         className={this.props.infiniteClassName}
         elementHeight={this.props.elementHeight}
         containerHeight={this.props.containerHeight}
+        useWindowAsScrollContainer={this.props.useWindowAsScrollContainer}
         handleScroll={this._onInfiniteContainerScroll}
         infiniteLoadBeginEdgeOffset={this.props.elementHeight * 2}
         onInfiniteLoad={this.onInfiniteLoad}
