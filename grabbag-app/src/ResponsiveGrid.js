@@ -14,7 +14,8 @@ export default class ResponsiveGrid extends Component {
     elements: PropTypes.arrayOf(PropTypes.element).isRequired,
     elementsPerRow: PropTypes.number.isRequired, // must be a factor of 12
     elementHeight: PropTypes.number.isRequired,
-    containerHeight: PropTypes.number.isRequired
+    containerHeight: PropTypes.number.isRequired,
+    infiniteClassName: PropTypes.string
   };
 
   constructor(props) {
@@ -73,7 +74,9 @@ export default class ResponsiveGrid extends Component {
     }
 
     return (
-      <Infinite elementHeight={this.props.elementHeight}
+      <Infinite
+        className={this.props.infiniteClassName}
+        elementHeight={this.props.elementHeight}
         containerHeight={this.props.containerHeight}
         handleScroll={this._onInfiniteContainerScroll}
         infiniteLoadBeginEdgeOffset={this.props.elementHeight * 2}

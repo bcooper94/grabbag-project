@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-// import Infinite from 'react-infinite';
 import WikiService from './services/WikiService';
 import ResponsiveGrid from './ResponsiveGrid';
 import DockedDeviceContainer from './DockedDeviceContainer';
@@ -61,14 +60,17 @@ export default class App extends Component {
 
     return (
       <div className='App'>
+        <div className='App-top-bar'></div>
         <header className='App-header'>
           <h1 className='App-title'>Grabbag Device Picker</h1>
         </header>
         <div className='container'>
-          <DockedDeviceContainer />
           <div id='devices-container' className='row all-devices'>
-            <div className='col-md-12 device-grid'>
-              <div className='row'>
+            <div className='col-md-3'>
+              <DockedDeviceContainer />
+            </div>
+            <div className='col-md-9 device-grid'>
+              <div className='row dark-blue-header'>
                 <h1>All Devices</h1>
               </div>
               <ResponsiveGrid
@@ -81,6 +83,7 @@ export default class App extends Component {
             </div>
           </div>
         </div>
+        <footer className='App-footer'></footer>
       </div >
     );
   }

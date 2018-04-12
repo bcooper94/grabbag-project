@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Alert from 'react-s-alert';
+import NotificationSystem from 'react-notification-system';
 import { DropTarget } from 'react-dnd';
 import ResponsiveGrid from './ResponsiveGrid';
 import DeviceCard from './DeviceCard';
@@ -8,7 +8,6 @@ import DeviceStorageService from './services/DeviceStorageService';
 import * as constants from './Constants';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-s-alert/dist/s-alert-default.css';
 
 const deviceContainerTarget = {
   drop(props, monitor, deviceContainerComponent) {
@@ -42,6 +41,8 @@ export default class DeviceContainer extends Component {
   }
 
   componentDidMount() {
+    this.notificationSystem = this.refs.notificationSystem;
+
     try {
       this.deviceStorageService = new DeviceStorageService();
       let storedDevices = this.deviceStorageService.getAllDevices();
@@ -61,9 +62,12 @@ export default class DeviceContainer extends Component {
       this.addDevice(targetDevice);
       this.props.onDeviceDrop(targetDevice);
     } else {
-      console.log('Device already in collection');
-      Alert.info('You already have ' + targetDevice.display_title
-        + ' in your collection.', { position: 'top-right' });
+      this.notificationSystem.addNotification({
+        message: 'You already have ' + targetDevice.display_title
+          + ' in your collection.',
+        level: 'error',
+        position: 'tl'
+      });
     }
   }
 
@@ -115,7 +119,8 @@ export default class DeviceContainer extends Component {
 
     return connectDropTarget(
       <div className={this.props.className + ' device-container'}>
-        <div className="row">
+        <NotificationSystem ref='notificationSystem'/>
+        <div className="device-container-title">
           <h1>Your Devices</h1>
         </div>
         <ResponsiveGrid
@@ -124,7 +129,7 @@ export default class DeviceContainer extends Component {
           elementsPerRow={this.props.elementsPerRow}
           elementHeight={67.25}
           containerHeight={600} />
-        <button className='btn btn-danger remove-devices-button'
+        <button className='btn device-picker-button remove-devices-button'
           onClick={this.clearDevices}>Remove All</button>
       </div>
     );

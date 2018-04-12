@@ -48,7 +48,7 @@ export default class DeviceCard extends Component {
 
     if (this.props.enableDelete && this.state.isHovering) {
       deleteButton = (
-        <i className='fa fa-lg fa-times-circle'
+        <i className='fa fa-lg fa-times-circle device-picker-dark-glyph'
           style={DeviceCard.DELETE_BUTTON_STYLE}
           onClick={this.props.onClickRemoveDevice}></i>
       );

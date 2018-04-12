@@ -3,13 +3,13 @@ import Dock from 'react-dock';
 import DeviceContainer from './DeviceContainer';
 
 const dockStyle = {
-  background: 'rgb(199, 189, 189)'
+  background: 'white'
 };
 
 const toggleButtonStyle = {
   position: 'absolute',
   zIndex: 1,
-  right: '10px',
+  right: '0px',
   top: '10px',
   cursor: 'pointer'
 };
@@ -17,8 +17,8 @@ const toggleButtonStyle = {
 export default class DockedDeviceContainer extends Component {
   static defaultProps = {
     sidebarPosition: 'left',
-    sidebarOpenSize: 0.25,
-    sidebarDockedSize: 0.1
+    sidebarOpenSize: 0.35,
+    sidebarDockedSize: 0.125
   };
 
   constructor() {
@@ -34,23 +34,6 @@ export default class DockedDeviceContainer extends Component {
     });
   }
 
-  renderSidebarContents() {
-    return (
-      <div className='container-fluid'>
-        <DeviceContainer className='device-grid'
-          onDeviceHover={() => this.setState({ isDeviceContainerVisible: true })} />
-      </div>
-    );
-  }
-
-  renderSidebarPlaceholder() {
-    return (
-      <DeviceContainer className='device-grid'
-        elementsPerRow={1}
-        onDeviceHover={this.onHover} />
-    );
-  }
-
   onHover(props, monitor) {
     setTimeout(() => {
       if (monitor.isOver()) {
@@ -59,47 +42,36 @@ export default class DockedDeviceContainer extends Component {
     }, 1000);
   }
 
-  renderOpenSidebar() {
-    return (
-      <Dock position={this.props.sidebarPosition}
-        isVisible={true}
-        fluid={true}
-        size={this.props.sidebarOpenSize}
-        dimMode='none'
-        dockStyle={dockStyle}>
-        {this.renderSidebarContents()}
-        <i className='fa fa-lg fa-times-circle'
-          style={toggleButtonStyle}
-          onClick={this.toggleShowDeviceContainer}></i>
-      </Dock>
-    );
-  }
-
-  renderClosedSidebar() {
-    return (
-      <Dock position={this.props.sidebarPosition}
-        isVisible={true}
-        fluid={true}
-        size={this.props.sidebarDockedSize}
-        dimMode='none'
-        dockStyle={dockStyle}>
-        {this.renderSidebarPlaceholder()}
-        <i className='fa fa-lg fa-plus-circle'
-          style={toggleButtonStyle}
-          onClick={this.toggleShowDeviceContainer}></i>
-      </Dock>
-    );
-  }
-
   render() {
-    let contents;
+    let isDeviceContainerVisible;
+    let sidebarOpenCloseButtonClass;
+    let devicesPerRow = 3;
 
     if (this.state.isDeviceContainerVisible) {
-      contents = this.renderOpenSidebar();
+      isDeviceContainerVisible = this.props.sidebarOpenSize;
+      sidebarOpenCloseButtonClass = 'fa fa-lg fa-plus-circle '
+        + 'device-picker-light-glyph';
     } else {
-      contents = this.renderClosedSidebar();
+      isDeviceContainerVisible = this.props.sidebarDockedSize;
+      sidebarOpenCloseButtonClass = 'fa fa-lg fa-times-circle '
+        + 'device-picker-light-glyph';
+      devicesPerRow = 1;
     }
 
-    return contents;
+    return (
+      <Dock position={this.props.sidebarPosition}
+        isVisible={true}
+        fluid={true}
+        size={isDeviceContainerVisible}
+        dimMode='none'
+        dockStyle={dockStyle}>
+        <DeviceContainer className='device-grid'
+          elementsPerRow={devicesPerRow}
+          onDeviceHover={this.onHover} />
+        <i className={sidebarOpenCloseButtonClass}
+          style={toggleButtonStyle}
+          onClick={this.toggleShowDeviceContainer}></i>
+      </Dock>
+    );
   }
 }

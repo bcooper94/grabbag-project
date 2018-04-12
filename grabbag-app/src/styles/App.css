@@ -1,3 +1,7 @@
+body {
+  background: #607d8b;
+}
+
 div {
   justify-content: center;
 }
@@ -6,25 +10,34 @@ div {
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.App-top-bar {
+  height: 25px;
+  background: #34515e;
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
+  background-color: #607d8b;
+  height: 75px;
   padding: 20px;
   color: white;
   margin-bottom: 25px;
 }
 
 .App-title {
-  font-size: 1.5em;
+  font-size: 3em;
 }
 
-.App-intro {
-  font-size: large;
+.App-footer {
+  height: 100px;
+  background: #8eacbc;
+}
+
+.dark-blue-header {
+  font-size: 2em;
+  background: #002f6c;
+  color: white;
+  padding-top: 15px;
+  padding-bottom: 5px;
 }
 
 .all-devices {
@@ -32,18 +45,40 @@ div {
 }
 
 .device-grid {
-  padding: 20px 50px;
+  background: white;
 }
 
 .device-container {
   height: 100%;
 }
 
+.device-container-title {
+  width: 100%;
+  color: white;
+  background: #01579b;
+  margin-bottom: 25px;
+}
+
+.device-picker-button {
+  color: white;
+  background: #002f6c;
+}
+
+.device-picker-dark-glyph {
+  color: #002f6c;
+  background: transparent;
+}
+
+.device-picker-light-glyph {
+  color: #8eacbc;
+  background: transparent;
+}
+
 .device-card {
   margin-bottom: 20px;
 }
 
-.device-card > img {
+.device-card>img {
   text-overflow: ellipsis;
 }
 
