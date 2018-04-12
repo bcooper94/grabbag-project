@@ -3,9 +3,9 @@ import * as constants from '../Constants';
 const WIKI_SERVICE_URL = constants.BASE_IFIXIT_URL + 'wikis/';
 
 export default class WikiService {
-  async getWikiItems(pageOffset, limit = 20) {
+  async getWikiItems(deviceOffset, limit = 20) {
     let requestParameters = new URLSearchParams();
-    requestParameters.append('pageOffset', pageOffset);
+    requestParameters.append('offset', deviceOffset);
     requestParameters.append('limit', limit);
 
     let request = new Request(WIKI_SERVICE_URL + 'CATEGORY?' +
@@ -18,7 +18,7 @@ export default class WikiService {
     if (response.ok) {
       wikiItems = await response.json();
     } else {
-      console.error('Failed to retrieve wiki items for page=' + pageOffset
+      console.error('Failed to retrieve wiki items for page=' + deviceOffset
         + ', limit=' + limit);
     }
 

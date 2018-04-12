@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import Alert from 'react-s-alert';
 import { DropTarget } from 'react-dnd';
+import ResponsiveGrid from './ResponsiveGrid';
 import DeviceCard from './DeviceCard';
 import DeviceStorageService from './services/DeviceStorageService';
 import * as constants from './Constants';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-s-alert/dist/s-alert-default.css';
 
 const deviceContainerTarget = {
   drop(props, monitor, deviceContainerComponent) {
@@ -23,17 +27,19 @@ const collect = (connect, monitor) => {
 export default class DeviceContainer extends Component {
   constructor() {
     super();
-    this.state = { storedDevices: [] };
+    this.state = {
+      storedDevices: [],
+      wasDeviceAdded: false
+    };
   }
 
   componentDidMount() {
     try {
       this.deviceStorageService = new DeviceStorageService();
       let storedDevices = this.deviceStorageService.getAllDevices();
-      console.debug('Got devices from local storage: ' + JSON.stringify(storedDevices));
 
       if (storedDevices != null) {
-        this.setState({storedDevices});
+        this.setState({ storedDevices });
       }
     } catch (e) {
       console.error('Local storage is not available on this platform');
@@ -45,14 +51,32 @@ export default class DeviceContainer extends Component {
     if (!this.state.storedDevices.find(device =>
       device.wikiid === targetDevice.wikiid)) {
       this.addDevice(targetDevice);
+    } else {
+      console.log('Device already in collection');
+      Alert.info('You already have ' + targetDevice.display_title
+        + ' in your collection.', { position: 'top-right' });
     }
   }
 
   addDevice(device) {
-    this.setState({ storedDevices: [...this.state.storedDevices, device] });
+    this.setState({
+      storedDevices: [...this.state.storedDevices, device],
+      wasDeviceAdded: true
+    });
+    this._scrollToBottom();
 
     if (this.deviceStorageService != null) {
       this.deviceStorageService.storeDevice(device);
+    }
+  }
+
+  _scrollToBottom() {
+    let grid = ReactDOM.findDOMNode(this.refs.deviceContainerGrid);
+
+    if (grid && grid.scrollTop && grid.scrollTopMax) {
+      grid.scrollTop = grid.scrollTopMax;
+    } else {
+      console.error('DeviceContainer failed to scroll to bottom of container');
     }
   }
 
@@ -61,7 +85,7 @@ export default class DeviceContainer extends Component {
     const indexToRemove = storedDevices.findIndex(device =>
       device.wikiid === targetDevice.wikiid)
     storedDevices.splice(indexToRemove, 1);
-    this.setState({storedDevices});
+    this.setState({ storedDevices });
 
     if (this.deviceStorageService != null) {
       this.deviceStorageService.removeDevice(targetDevice);
@@ -70,17 +94,23 @@ export default class DeviceContainer extends Component {
 
   render() {
     const { connectDropTarget } = this.props;
-    let { devices } = this.state;
-
-    devices = this.state.storedDevices.map(device =>
+    let deviceElements = this.state.storedDevices.map(device =>
       <DeviceCard key={device.wikiid} device={device}
         onClickRemoveDevice={this.removeDevice.bind(this, device)}
-        enableDelete  />);
+        enableDelete />);
 
     return connectDropTarget(
       <div className={this.props.className + ' device-container'}>
-        <div className="row"><h1>Your Devices</h1></div>
-        {devices}
+        <div className="row">
+          <h1>Your Devices</h1>
+        </div>
+        <ResponsiveGrid
+          ref='deviceContainerGrid'
+          elements={deviceElements}
+          elementsPerRow={2}
+          elementHeight={67.25}
+          containerHeight={600}
+          displayBottomUpwards={true} />
       </div>
     );
   }

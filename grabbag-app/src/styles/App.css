@@ -40,6 +40,13 @@
 }
 
 .device-card {
+  margin-bottom: 20px;
+}
+
+.draggable-device {
+  cursor: pointer;
+}
+/* .device-card {
   padding-top: 20px;
   margin-left: 20px;
   margin-right: 20px;
@@ -47,4 +54,4 @@
 
 .device-card > img {
   margin-right: 15px;
-}
+} */
